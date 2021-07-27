@@ -72,6 +72,8 @@ protected:
   FXIcon     *icon;
   FXptr       data;
   FXuint      state;
+  FXColor     color;
+  FXbool      isowncolor;
 private:
   FXTableItem(const FXTableItem&);
   FXTableItem& operator=(const FXTableItem&);
@@ -111,7 +113,19 @@ public:
 public:
 
   /// Construct new table item
-  FXTableItem(const FXString& text,FXIcon* ic=NULL,FXptr ptr=NULL):label(text),icon(ic),data(ptr),state(RIGHT|CENTER_Y){}
+  FXTableItem(const FXString& text,FXIcon* ic=NULL,FXptr ptr=NULL):label(text),icon(ic),data(ptr),state(RIGHT|CENTER_Y),isowncolor(0){}
+
+  /// Change item's own color
+  void setCellBackColor(FXColor clr);
+
+  /// Set item's color to default, cancel setCellBackColor(FXColor clr);
+  void unsetCellBackColor();
+
+  /// Return true if item has his own color
+  FXbool isOwnColor();
+
+  /// Return item's own color, return 0 if no own color was set
+  FXColor getOwnColor();
 
   /// Change item's text label
   virtual void setText(const FXString& txt);
@@ -1052,6 +1066,9 @@ public:
   void setGridColor(FXColor clr);
   void setStippleColor(FXColor clr);
   void setCellBorderColor(FXColor clr);
+
+  FXbool isOwnColor(FXint row,FXint col);
+  FXColor getOwnColor(FXint row,FXint col);
 
   /// Change cell background color for even/odd rows/columns
   void setCellColor(FXint row,FXint col,FXColor clr);

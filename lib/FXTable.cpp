@@ -441,6 +441,23 @@ void FXTableItem::setIcon(FXIcon* icn,FXbool owned){
     }
   }
 
+void FXTableItem::setCellBackColor(FXColor clr) {
+  color=clr;
+  isowncolor=1;
+  }
+
+void FXTableItem::unsetCellBackColor(){
+  isowncolor=0;
+  }
+
+FXbool FXTableItem::isOwnColor(){
+  return isowncolor;
+  }
+
+FXColor FXTableItem::getOwnColor(){
+  if(isOwnColor()) return color;
+  return 0;
+  }
 
 // Change justify mode
 void FXTableItem::setJustify(FXuint justify){
@@ -2421,7 +2438,10 @@ void FXTable::drawCell(FXDC& dc,FXint sr,FXint er,FXint sc,FXint ec){
       dc.setForeground(selbackColor);                 // Selected item
       }
     else if(sr==er && sc==ec){
-      dc.setForeground(cellBackColor[sr&1][sc&1]);    // Singular item
+      if(isOwnColor(sr, sc))
+        dc.setForeground(getOwnColor(sr, sc));    // Singular item
+      else
+        dc.setForeground(cellBackColor[sr&1][sc&1]);    // Singular item
       }
     else{
       dc.setForeground(backColor);                    // Spanning item
@@ -4323,6 +4343,23 @@ void FXTable::setCellBorderColor(FXColor clr){
     cellBorderColor=clr;
     update();
     }
+  }
+
+
+FXbool FXTable::isOwnColor(FXint row,FXint col)
+{
+  if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemText: index out of range.\n",getClassName()); }
+    register FXTableItem* item=cells[row*ncols+col];
+    if(item) return item->isOwnColor();
+
+  return 0;
+}
+
+FXColor FXTable::getOwnColor(FXint row,FXint col){
+    if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemText: index out of range.\n",getClassName()); }
+    register FXTableItem* item=cells[row*ncols+col];
+    if(item) return item->getOwnColor();
+    return 0;
   }
 
 // Set cell color
