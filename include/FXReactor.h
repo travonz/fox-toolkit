@@ -124,7 +124,7 @@ public:
   virtual FXbool dispatchHandle(FXInputHandle hnd,FXuint mode,FXuint flags);
 
   /// Add (optionally asynchronous) signal sig to signal-set
-  virtual FXbool addSignal(FXint sig,FXbool FXbool=false);
+  virtual FXbool addSignal(FXint sig,FXbool sync=false);
 
   /// Remove signal sig from signal-set
   virtual FXbool remSignal(FXint sig);
