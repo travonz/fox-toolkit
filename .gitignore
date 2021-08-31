@@ -2,6 +2,7 @@
 !.gitignore
 *~
 /doc/ref
+autom4te.cache/
 
 # Prerequisites
 *.d
