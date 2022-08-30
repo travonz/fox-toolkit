@@ -3,7 +3,7 @@
 *                  F i l e   S e l e c t i o n   W i d g e t                    *
 *                                                                               *
 *********************************************************************************
-* Copyright (C) 1998,2021 by Jeroen van der Zijp.   All Rights Reserved.        *
+* Copyright (C) 1998,2022 by Jeroen van der Zijp.   All Rights Reserved.        *
 *********************************************************************************
 * This library is free software; you can redistribute it and/or modify          *
 * it under the terms of the GNU Lesser General Public License as published by   *
@@ -46,6 +46,7 @@ class FXHorizontalFrame;
 /// File selection modes
 enum {
   SELECTFILE_ANY,             /// A single file, existing or not (to save to)
+  SELECTFILE_ALL,             /// A single file or directory, existing or not (to save to)
   SELECTFILE_EXISTING,        /// An existing file (to load)
   SELECTFILE_MULTIPLE,        /// Multiple existing files
   SELECTFILE_MULTIPLE_ALL,    /// Multiple existing files or directories, but not '.' and '..'
@@ -153,7 +154,7 @@ public:
 public:
 
   /// Constructor
-  FXFileSelector(FXComposite *p,FXObject* tgt=NULL,FXSelector sel=0,FXuint opts=0,FXint x=0,FXint y=0,FXint w=0,FXint h=0);
+  FXFileSelector(FXComposite *p,FXObject* tgt=nullptr,FXSelector sel=0,FXuint opts=0,FXint x=0,FXint y=0,FXint w=0,FXint h=0);
 
   /// Return a pointer to the "Accept" button
   FXButton *acceptButton() const { return accept; }

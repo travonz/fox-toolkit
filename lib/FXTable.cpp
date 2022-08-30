@@ -3,7 +3,7 @@
 *                            T a b l e   W i d g e t                            *
 *                                                                               *
 *********************************************************************************
-* Copyright (C) 1999,2021 by Jeroen van der Zijp.   All Rights Reserved.        *
+* Copyright (C) 1999,2022 by Jeroen van der Zijp.   All Rights Reserved.        *
 *********************************************************************************
 * This library is free software; you can redistribute it and/or modify          *
 * it under the terms of the GNU Lesser General Public License as published by   *
@@ -217,7 +217,7 @@ namespace FX {
 
 
 // Object implementation
-FXIMPLEMENT(FXTableItem,FXObject,NULL,0)
+FXIMPLEMENT(FXTableItem,FXObject,nullptr,0)
 
 
 // Draw background behind the cell
@@ -375,7 +375,7 @@ void FXTableItem::draw(const FXTable* table,FXDC& dc,FXint x,FXint y,FXint w,FXi
 FXWindow* FXTableItem::getControlFor(FXTable* table){
   FXTextField *field;
   FXuint justify=0;
-  field=new FXTextField(table,1,NULL,0,TEXTFIELD_ENTER_ONLY,0,0,0,0,table->getMarginLeft(),table->getMarginRight(),table->getMarginTop(),table->getMarginBottom());
+  field=new FXTextField(table,1,nullptr,0,TEXTFIELD_ENTER_ONLY,0,0,0,0,table->getMarginLeft(),table->getMarginRight(),table->getMarginTop(),table->getMarginBottom());
   if(state&LEFT) justify|=JUSTIFY_LEFT;
   if(state&RIGHT) justify|=JUSTIFY_RIGHT;
   if(state&TOP) justify|=JUSTIFY_TOP;
@@ -589,7 +589,7 @@ FXTableItem::~FXTableItem(){
 
 
 // Object implementation
-FXIMPLEMENT(FXComboTableItem,FXTableItem,NULL,0)
+FXIMPLEMENT(FXComboTableItem,FXTableItem,nullptr,0)
 
 
 // Construct new table item
@@ -609,7 +609,7 @@ void FXComboTableItem::setSelections(const FXString& strings){
 FXWindow* FXComboTableItem::getControlFor(FXTable* table){
   FXComboBox *combo;
   FXuint justify=0;
-  combo=new FXComboBox(table,1,NULL,0,COMBOBOX_STATIC,0,0,0,0,table->getMarginLeft(),table->getMarginRight(),table->getMarginTop(),table->getMarginBottom());
+  combo=new FXComboBox(table,1,nullptr,0,COMBOBOX_STATIC,0,0,0,0,table->getMarginLeft(),table->getMarginRight(),table->getMarginTop(),table->getMarginBottom());
   if(state&LEFT) justify|=JUSTIFY_LEFT;
   if(state&RIGHT) justify|=JUSTIFY_RIGHT;
   if(state&TOP) justify|=JUSTIFY_TOP;
@@ -740,12 +740,12 @@ FXDragType FXTable::csvType=0;
 // Serialization
 FXTable::FXTable(){
   flags|=FLAG_ENABLED;
-  colHeader=NULL;
-  rowHeader=NULL;
-  cornerButton=NULL;
+  colHeader=nullptr;
+  rowHeader=nullptr;
+  cornerButton=nullptr;
   callocElms(cells,1);
-  editor=NULL;
-  font=NULL;
+  editor=nullptr;
+  font=nullptr;
   nrows=0;
   ncols=0;
   visiblerows=0;
@@ -802,11 +802,11 @@ FXTable::FXTable(FXComposite *p,FXObject* tgt,FXSelector sel,FXuint opts,FXint x
   if(options&TABLE_NO_ROWSELECT) rowhs&=~HEADER_BUTTON;
   colHeader=new FXHeader(this,this,FXTable::ID_SELECT_COLUMN_INDEX,colhs,0,0,0,DEFAULTROWHEIGHT);
   rowHeader=new FXHeader(this,this,FXTable::ID_SELECT_ROW_INDEX,rowhs,0,0,DEFAULTCOLWIDTH,0);
-  cornerButton=new FXButton(this,FXString::null,NULL,this,FXTable::ID_SELECT_ALL,FRAME_RAISED|FRAME_THICK);
+  cornerButton=new FXButton(this,FXString::null,nullptr,this,FXTable::ID_SELECT_ALL,FRAME_RAISED|FRAME_THICK);
   flags|=FLAG_ENABLED;
   target=tgt;
   message=sel;
-  editor=NULL;
+  editor=nullptr;
   callocElms(cells,1);
   font=getApp()->getNormalFont();
   nrows=0;
@@ -940,25 +940,25 @@ FXbool FXTable::setSpanningRange(FXint row,FXint col,FXint fr,FXint lr,FXint fc,
       }
 
     // Box 1
-    it=(fr<sr)?item:NULL;
+    it=(fr<sr)?item:nullptr;
     for(r=lfrsr; r<hfrsr; ++r){
       for(c=lfcsc; c<=llcec; ++c){cells[r*ncols+c]=it;}
       }
 
     // Box 2
-    it=(ec<lc)?item:NULL;
+    it=(ec<lc)?item:nullptr;
     for(c=hlcec; c>llcec; --c){
       for(r=lfrsr; r<=llrer; ++r){cells[r*ncols+c]=it;}
       }
 
     // Box 3
-    it=(er<lr)?item:NULL;
+    it=(er<lr)?item:nullptr;
     for(r=hlrer; r>llrer; --r){
       for(c=hfcsc; c<=hlcec; ++c){cells[r*ncols+c]=it;}
       }
 
     // Box 4
-    it=(fc<sc)?item:NULL;
+    it=(fc<sc)?item:nullptr;
     for(c=lfcsc; c<hfcsc; ++c){
       for(r=hfrsr; r<=hlrer; ++r){cells[r*ncols+c]=it;}
       }
@@ -976,7 +976,7 @@ void FXTable::getSpanningRange(FXint row,FXint col,FXint& fr,FXint& lr,FXint& fc
   FXTableItem *item;
   fr=lr=row;
   fc=lc=col;
-  if((item=cells[row*ncols+col])!=NULL){
+  if((item=cells[row*ncols+col])!=nullptr){
     while(0<fr && cells[(fr-1)*ncols+col]==item) fr--;
     while(lr<nrows-1 && cells[(lr+1)*ncols+col]==item) lr++;
     while(0<fc && cells[row*ncols+fc-1]==item) fc--;
@@ -1023,12 +1023,12 @@ void FXTable::killFocus(){
   acceptInput(true);
   }
 
+/*
 
 // Notification that focus moved to new child
 void FXTable::changeFocus(FXWindow *child){
   FXWindow::changeFocus(child);
 
-/*
   // Focus on child
   if(child){
 
@@ -1081,8 +1081,8 @@ FXTRACE((100,"changeFocus: xx=%d\n",colHeader->getX()+colHeader->getItemOffset(c
         }
       }
     }
-*/
   }
+*/
 
 
 // Propagate size change
@@ -1269,8 +1269,8 @@ void FXTable::updateItem(FXint row,FXint col) const {
 void FXTable::setItemText(FXint row,FXint col,const FXString& text,FXbool notify){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemText: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getText()!=text){
@@ -1297,8 +1297,8 @@ FXString FXTable::getItemText(FXint row,FXint col) const {
 void FXTable::setItemTipText(FXint row,FXint col,const FXString& text){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemTipText: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   item->setTipText(text);
@@ -1317,8 +1317,8 @@ FXString FXTable::getItemTipText(FXint row,FXint col) const {
 void FXTable::setItemIcon(FXint row,FXint col,FXIcon* icon,FXbool owned,FXbool notify){
   if(row<0 || col<0 || nrows<=row || ncols<=col){ fxerror("%s::setItemIcon: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getIcon()!=icon){
@@ -1337,7 +1337,7 @@ void FXTable::setItemIcon(FXint row,FXint col,FXIcon* icon,FXbool owned,FXbool n
 FXIcon* FXTable::getItemIcon(FXint row,FXint col) const {
   if(row<0 || col<0 || nrows<=row || ncols<=col){ fxerror("%s::getItemIcon: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  return item ? item->getIcon() : NULL;
+  return item ? item->getIcon() : nullptr;
   }
 
 
@@ -1345,8 +1345,8 @@ FXIcon* FXTable::getItemIcon(FXint row,FXint col) const {
 void FXTable::setItemData(FXint row,FXint col,FXptr ptr){
   if(row<0 || col<0 || nrows<=row || ncols<=col){ fxerror("%s::setItemData: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   item->setData(ptr);
@@ -1357,7 +1357,7 @@ void FXTable::setItemData(FXint row,FXint col,FXptr ptr){
 FXptr FXTable::getItemData(FXint row,FXint col) const {
   if(row<0 || col<0 || nrows<=row || ncols<=col){ fxerror("%s::getItemData: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  return item ? item->getData() : NULL;
+  return item ? item->getData() : nullptr;
   }
 
 
@@ -1378,8 +1378,8 @@ FXbool FXTable::isItemEnabled(FXint row,FXint col) const {
 FXbool FXTable::enableItem(FXint row,FXint col){
   if(0<=row && 0<=col && row<nrows && col<ncols){
     FXTableItem* item=cells[row*ncols+col];
-    if(item==NULL){
-      cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+    if(item==nullptr){
+      cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
       if(isItemSelected(row,col)) item->setSelected(true);
       }
     if(!item->isEnabled()){
@@ -1396,8 +1396,8 @@ FXbool FXTable::enableItem(FXint row,FXint col){
 FXbool FXTable::disableItem(FXint row,FXint col){
   if(0<=row && 0<=col && row<nrows && col<ncols){
     FXTableItem* item=cells[row*ncols+col];
-    if(item==NULL){
-      cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+    if(item==nullptr){
+      cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
       if(isItemSelected(row,col)) item->setSelected(true);
       }
     if(item->isEnabled()){
@@ -1414,8 +1414,8 @@ FXbool FXTable::disableItem(FXint row,FXint col){
 void FXTable::setItemJustify(FXint row,FXint col,FXuint justify){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemJustify: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getJustify()!=justify){
@@ -1436,8 +1436,8 @@ FXuint FXTable::getItemJustify(FXint row,FXint col) const {
 void FXTable::setItemIconPosition(FXint row,FXint col,FXuint m){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemIconPosition: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getIconPosition()!=m){
@@ -1458,8 +1458,8 @@ FXuint FXTable::getItemIconPosition(FXint row,FXint col) const {
 void FXTable::setItemBorders(FXint row,FXint col,FXuint borders){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemBorders: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getBorders()!=borders){
@@ -1480,8 +1480,8 @@ FXuint FXTable::getItemBorders(FXint row,FXint col) const {
 void FXTable::setItemStipple(FXint row,FXint col,FXStipplePattern pattern){
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemStipple: index out of range.\n",getClassName()); }
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(true);
     }
   if(item->getStipple()!=pattern){
@@ -1505,13 +1505,13 @@ void FXTable::extractText(FXchar*& text,FXint& size,FXint startrow,FXint endrow,
   FXString string;
 
   // Verify arguments
-  if(cs==NULL || rs==NULL){ fxerror("%s::extractText: bad argument.\n",getClassName()); }
+  if(cs==nullptr || rs==nullptr){ fxerror("%s::extractText: bad argument.\n",getClassName()); }
 
   // Verify range
   if(startrow<0 || startcol<0 || nrows<=endrow || ncols<=endcol){ fxerror("%s::extractText: index out of range.\n",getClassName()); }
 
   // Initialize
-  text=NULL;
+  text=nullptr;
   size=0;
 
   // Non-empty range
@@ -1563,7 +1563,7 @@ void FXTable::extractText(FXString& text,FXint startrow,FXint endrow,FXint start
   FXString string;
 
   // Verify arguments
-  if(cs==NULL || rs==NULL){ fxerror("%s::extractText: bad argument.\n",getClassName()); }
+  if(cs==nullptr || rs==nullptr){ fxerror("%s::extractText: bad argument.\n",getClassName()); }
 
   // Verify range
   if(startrow<0 || startcol<0 || nrows<=endrow || ncols<=endcol){ fxerror("%s::extractText: index out of range.\n",getClassName()); }
@@ -1615,7 +1615,7 @@ void FXTable::countText(FXint& nr,FXint& nc,const FXchar* text,FXint size,const 
   FXint c=0,i=0,item=0;
 
   // Verify arguments
-  if(size<0 || text==NULL || cs==NULL || rs==NULL){ fxerror("%s::countText: bad argument.\n",getClassName()); }
+  if(size<0 || text==nullptr || cs==nullptr || rs==nullptr){ fxerror("%s::countText: bad argument.\n",getClassName()); }
 
   nr=nc=0;
 
@@ -1660,7 +1660,7 @@ void FXTable::overlayText(FXint startrow,FXint endrow,FXint startcol,FXint endco
   FXint beg=0,end=0,r,c;
 
   // Verify arguments
-  if(size<0 || text==NULL || cs==NULL || rs==NULL){ fxerror("%s::overlayText: bad argument.\n",getClassName()); }
+  if(size<0 || text==nullptr || cs==nullptr || rs==nullptr){ fxerror("%s::overlayText: bad argument.\n",getClassName()); }
 
   // Verify range
   if(startrow<0 || startcol<0 || startrow>endrow || startcol>endcol){ fxerror("%s::overlayText: index out of range.\n",getClassName()); }
@@ -1924,8 +1924,8 @@ FXbool FXTable::killSelection(FXbool notify){
 // Get input control to edit the item
 FXWindow* FXTable::getControlForItem(FXint row,FXint col){
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(false);
     }
   return item->getControlFor(this);
@@ -1935,8 +1935,8 @@ FXWindow* FXTable::getControlForItem(FXint row,FXint col){
 // Set the item from the input control
 void FXTable::setItemFromControl(FXint row,FXint col,FXWindow* control){
   FXTableItem* item=cells[row*ncols+col];
-  if(item==NULL){
-    cells[row*ncols+col]=item=createItem(FXString::null,NULL,NULL);
+  if(item==nullptr){
+    cells[row*ncols+col]=item=createItem(FXString::null,nullptr,nullptr);
     if(isItemSelected(row,col)) item->setSelected(false);
     }
   item->setFromControl(control);
@@ -1968,7 +1968,7 @@ FXbool FXTable::cancelInput(){
     input.to.row=-1;
     input.fm.col=-1;
     input.to.col=-1;
-    editor=NULL;
+    editor=nullptr;
     return true;
     }
   return false;
@@ -2001,7 +2001,7 @@ long FXTable::onCmdStartInput(FXObject*,FXSelector,void*){
 
 // Update start edit
 long FXTable::onUpdStartInput(FXObject* sender,FXSelector,void*){
-  sender->handle(this,(isEditable() && isItemEnabled(current.row,current.col) && !editor)?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,(isEditable() && isItemEnabled(current.row,current.col) && !editor)?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -2022,7 +2022,7 @@ long FXTable::onCmdAcceptInput(FXObject*,FXSelector,void*){
 
 // Update end edit
 long FXTable::onUpdAcceptInput(FXObject* sender,FXSelector,void*){
-  sender->handle(this,editor ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,editor ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -2225,7 +2225,7 @@ long FXTable::onClipboardRequest(FXObject* sender,FXSelector sel,void* ptr){
 
 // Update items that operate on the selection
 long FXTable::onUpdHaveSelection(FXObject* sender,FXSelector,void*){
-  sender->handle(this,isAnythingSelected()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,isAnythingSelected()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -2304,7 +2304,7 @@ long FXTable::onCmdDeleteSel(FXObject*,FXSelector,void*){
 
     // Delete existing selection
     if(hasSelection()){
-      handle(this,FXSEL(SEL_COMMAND,ID_DELETE_SEL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_DELETE_SEL),nullptr);
       }
 
    Paste ways:
@@ -2491,13 +2491,13 @@ void FXTable::drawHGrid(FXDC& dc,FXint rlo,FXint rhi,FXint clo,FXint chi){
   FXint r,c,xx,yy,ww,hh;
   dc.setForeground(gridColor);
   for(c=clo; c<=chi; c++){
-    meti=item=NULL;
+    meti=item=nullptr;
     xx=colHeader->getX()+colHeader->getItemOffset(c);
     ww=colHeader->getItemSize(c);
     for(r=rlo; r<=rhi; r++){
       yy=rowHeader->getY()+rowHeader->getItemOffset(r);
       hh=rowHeader->getItemSize(r);
-      if(r==0 || (item=cells[r*ncols+c])==NULL || item!=meti){
+      if(r==0 || (item=cells[r*ncols+c])==nullptr || item!=meti){
         dc.fillRectangle(xx,yy,ww,1);
         }
       if(rhi==nrows-1){
@@ -2515,13 +2515,13 @@ void FXTable::drawVGrid(FXDC& dc,FXint rlo,FXint rhi,FXint clo,FXint chi){
   FXint r,c,xx,yy,ww,hh;
   dc.setForeground(gridColor);
   for(r=rlo; r<=rhi; r++){
-    meti=item=NULL;
+    meti=item=nullptr;
     yy=rowHeader->getY()+rowHeader->getItemOffset(r);
     hh=rowHeader->getItemSize(r);
     for(c=clo; c<=chi; c++){
       xx=colHeader->getX()+colHeader->getItemOffset(c);
       ww=colHeader->getItemSize(c);
-      if(c==0 || (item=cells[r*ncols+c])==NULL || item!=meti){
+      if(c==0 || (item=cells[r*ncols+c])==nullptr || item!=meti){
         dc.fillRectangle(xx,yy,1,hh);
         }
       if(chi==ncols-1){
@@ -2621,128 +2621,128 @@ long FXTable::onKeyPress(FXObject* sender,FXSelector sel,void* ptr){
     case KEY_Home:
     case KEY_KP_Home:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
       if(event->state&CONTROLMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_TOP),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_TOP),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_HOME),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_HOME),nullptr);
         }
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_End:
     case KEY_KP_End:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
       if(event->state&CONTROLMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_BOTTOM),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_BOTTOM),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_END),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_END),nullptr);
         }
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Page_Up:
     case KEY_KP_Page_Up:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_PAGEUP),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_PAGEUP),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Page_Down:
     case KEY_KP_Page_Down:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_PAGEDOWN),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_PAGEDOWN),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Up:
     case KEY_KP_Up:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_UP),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_UP),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Down:
     case KEY_KP_Down:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_DOWN),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_DOWN),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Tab:
-      handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
       if(event->state&SHIFTMASK)
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),nullptr);
       else
-        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_RIGHT),NULL);
-      handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MOVE_RIGHT),nullptr);
+      handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
       return 1;
     case KEY_ISO_Left_Tab:
-      handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),NULL);
-      handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),nullptr);
+      handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
       return 1;
     case KEY_Right:
     case KEY_KP_Right:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_RIGHT),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_RIGHT),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Left:
     case KEY_KP_Left:
       if(!(event->state&SHIFTMASK)){
-        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_DESELECT_ALL),nullptr);
         }
-      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_MOVE_LEFT),nullptr);
       if(event->state&SHIFTMASK){
-        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_EXTEND),nullptr);
         }
       else{
-        handle(this,FXSEL(SEL_COMMAND,ID_MARK),NULL);
+        handle(this,FXSEL(SEL_COMMAND,ID_MARK),nullptr);
         }
       return 1;
     case KEY_Return:
@@ -2750,33 +2750,33 @@ long FXTable::onKeyPress(FXObject* sender,FXSelector sel,void* ptr){
       handle(this,FXSEL(SEL_DOUBLECLICKED,0),(void*)&current);
       return 1;
     case KEY_F2:
-      handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),nullptr);
       return 1;
     case KEY_Escape:
-      handle(this,FXSEL(SEL_COMMAND,ID_CANCEL_INPUT),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_CANCEL_INPUT),nullptr);
       return 1;
     case KEY_a:
       if(!(event->state&CONTROLMASK)) goto ins;
-      handle(this,FXSEL(SEL_COMMAND,ID_SELECT_ALL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_SELECT_ALL),nullptr);
       return 1;
     case KEY_x:
       if(!(event->state&CONTROLMASK)) goto ins;
     case KEY_F20:                               // Sun Cut key
-      handle(this,FXSEL(SEL_COMMAND,ID_CUT_SEL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_CUT_SEL),nullptr);
       return 1;
     case KEY_c:
       if(!(event->state&CONTROLMASK)) goto ins;
     case KEY_F16:                               // Sun Copy key
-      handle(this,FXSEL(SEL_COMMAND,ID_COPY_SEL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_COPY_SEL),nullptr);
       return 1;
     case KEY_v:
       if(!(event->state&CONTROLMASK)) goto ins;
     case KEY_F18:                               // Sun Paste key
-      handle(this,FXSEL(SEL_COMMAND,ID_PASTE_SEL),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_PASTE_SEL),nullptr);
       return 1;
     default:
 ins:  if((event->state&(CONTROLMASK|ALTMASK)) || ((FXuchar)event->text[0]<32)) return 0;
-      handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),NULL);
+      handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),nullptr);
       if(getFocus() && getFocus()->handle(sender,sel,ptr)) return 1;
       return 1;
     }
@@ -3053,7 +3053,7 @@ long FXTable::onClicked(FXObject*,FXSelector,void* ptr){
 // Double clicked in list; ptr may or may not point to an item
 long FXTable::onDoubleClicked(FXObject*,FXSelector,void* ptr){
   if(target && target->tryHandle(this,FXSEL(SEL_DOUBLECLICKED,message),ptr)) return 1;
-  handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),NULL);
+  handle(this,FXSEL(SEL_COMMAND,ID_START_INPUT),nullptr);
   return 1;
   }
 
@@ -3072,7 +3072,7 @@ long FXTable::onCmdHorzGrid(FXObject*,FXSelector,void*){
 
 
 long FXTable::onUpdHorzGrid(FXObject* sender,FXSelector,void*){
-  sender->handle(this,hgrid?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),NULL);
+  sender->handle(this,hgrid?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),nullptr);
   return 1;
   }
 
@@ -3085,7 +3085,7 @@ long FXTable::onCmdVertGrid(FXObject*,FXSelector,void*){
 
 
 long FXTable::onUpdVertGrid(FXObject* sender,FXSelector,void*){
-  sender->handle(this,vgrid?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),NULL);
+  sender->handle(this,vgrid?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),nullptr);
   return 1;
   }
 
@@ -3103,9 +3103,9 @@ long FXTable::onCmdDeleteColumn(FXObject*,FXSelector,void*){
 // Update delete current column
 long FXTable::onUpdDeleteColumn(FXObject* sender,FXSelector,void*){
   if(0<=current.col && current.col<ncols && 0<ncols && isEditable())
-    sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),NULL);
+    sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),nullptr);
   else
-    sender->handle(this,FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+    sender->handle(this,FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3123,9 +3123,9 @@ long FXTable::onCmdDeleteRow(FXObject*,FXSelector,void*){
 // Update delete current row
 long FXTable::onUpdDeleteRow(FXObject* sender,FXSelector,void*){
   if(0<=current.row && current.row<nrows && 0<nrows && isEditable())
-    sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),NULL);
+    sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),nullptr);
   else
-    sender->handle(this,FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+    sender->handle(this,FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3142,7 +3142,7 @@ long FXTable::onCmdInsertColumn(FXObject*,FXSelector,void*){
 
 // Update insert column
 long FXTable::onUpdInsertColumn(FXObject* sender,FXSelector,void*){
-  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3159,7 +3159,7 @@ long FXTable::onCmdInsertRow(FXObject*,FXSelector,void*){
 
 // Update insert row
 long FXTable::onUpdInsertRow(FXObject* sender,FXSelector,void*){
-  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_ENABLE):FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3252,7 +3252,7 @@ long FXTable::onCmdMovePageUp(FXObject*,FXSelector,void*){
 
 // Update select cell
 long FXTable::onUpdSelectCell(FXObject* sender,FXSelector,void*){
-  sender->handle(this,(0<=current.row && 0<=current.col && current.row<nrows && current.col<ncols) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,(0<=current.row && 0<=current.col && current.row<nrows && current.col<ncols) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3267,7 +3267,7 @@ long FXTable::onCmdSelectCell(FXObject*,FXSelector,void*){
 
 // Update select row
 long FXTable::onUpdSelectRow(FXObject* sender,FXSelector,void*){
-  sender->handle(this,(0<=current.row && current.row<nrows) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,(0<=current.row && current.row<nrows) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3283,7 +3283,7 @@ long FXTable::onCmdSelectRow(FXObject*,FXSelector,void*){
 
 // Update select column
 long FXTable::onUpdSelectColumn(FXObject* sender,FXSelector,void*){
-  sender->handle(this,(0<=current.col && current.col<ncols) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,(0<=current.col && current.col<ncols) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3317,7 +3317,7 @@ long FXTable::onCmdSelectColumnIndex(FXObject*,FXSelector,void* ptr){
 
 // Update select all
 long FXTable::onUpdSelectAll(FXObject* sender,FXSelector,void*){
-  sender->handle(this,(0<ncols && 0<nrows) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,(0<ncols && 0<nrows) ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3332,7 +3332,7 @@ long FXTable::onCmdSelectAll(FXObject*,FXSelector,void*){
 
 // Update deselect all
 long FXTable::onUpdDeselectAll(FXObject* sender,FXSelector,void*){
-  sender->handle(this,isAnythingSelected() ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),NULL);
+  sender->handle(this,isAnythingSelected() ? FXSEL(SEL_COMMAND,ID_ENABLE) : FXSEL(SEL_COMMAND,ID_DISABLE),nullptr);
   return 1;
   }
 
@@ -3366,9 +3366,9 @@ long FXTable::onCmdToggleEditable(FXObject*,FXSelector,void*){
 
 // Update editable toggle
 long FXTable::onUpdToggleEditable(FXObject* sender,FXSelector,void*){
-  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),NULL);
-  sender->handle(this,FXSEL(SEL_COMMAND,ID_SHOW),NULL);
-  sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),NULL);
+  sender->handle(this,isEditable()?FXSEL(SEL_COMMAND,ID_CHECK):FXSEL(SEL_COMMAND,ID_UNCHECK),nullptr);
+  sender->handle(this,FXSEL(SEL_COMMAND,ID_SHOW),nullptr);
+  sender->handle(this,FXSEL(SEL_COMMAND,ID_ENABLE),nullptr);
   return 1;
   }
 
@@ -3455,18 +3455,18 @@ void FXTable::setTableSize(FXint nr,FXint nc,FXbool notify){
   // Initialize cell array
   for(r=0; r<nr; r++){
     for(c=0; c<nc; c++){
-      cells[r*nc+c]=NULL;
+      cells[r*nc+c]=nullptr;
       }
     }
 
   // Initialize row headers
   for(r=0; r<nr; r++){
-    rowHeader->appendItem(FXString::null,NULL,defRowHeight);
+    rowHeader->appendItem(FXString::null,nullptr,defRowHeight);
     }
 
   // Initialize column headers
   for(c=0; c<nc; c++){
-    colHeader->appendItem(FXString::null,NULL,defColWidth);
+    colHeader->appendItem(FXString::null,nullptr,defColWidth);
     }
 
   // Set size
@@ -3516,7 +3516,7 @@ void FXTable::insertRows(FXint row,FXint nr,FXbool notify){
 
   // Initialize row headers
   for(r=row; r<row+nr; r++){
-    rowHeader->insertItem(r,FXString::null,NULL,defRowHeight);
+    rowHeader->insertItem(r,FXString::null,nullptr,defRowHeight);
     }
 
   // Allocate new table
@@ -3540,7 +3540,7 @@ void FXTable::insertRows(FXint row,FXint nr,FXbool notify){
       }
     else{
       for(r=row; r<row+nr; r++){
-        cells[r*ncols+c]=NULL;
+        cells[r*ncols+c]=nullptr;
         }
       }
     }
@@ -3608,7 +3608,7 @@ void FXTable::insertColumns(FXint col,FXint nc,FXbool notify){
 
   // Initialize column headers
   for(c=col; c<col+nc; c++){
-    colHeader->insertItem(c,FXString::null,NULL,defColWidth);
+    colHeader->insertItem(c,FXString::null,nullptr,defColWidth);
     }
 
   // Allocate new table
@@ -3632,7 +3632,7 @@ void FXTable::insertColumns(FXint col,FXint nc,FXbool notify){
       }
     else{
       for(c=col; c<col+nc; c++){
-        cells[r*n+c]=NULL;
+        cells[r*n+c]=nullptr;
         }
       }
     }
@@ -3921,7 +3921,7 @@ FXTableItem* FXTable::extractItem(FXint row,FXint col,FXbool notify){
   // Clear entries
   for(r=sr; r<=er; r++){
     for(c=sc; c<=ec; c++){
-      cells[r*ncols+c]=NULL;
+      cells[r*ncols+c]=nullptr;
       }
     }
 
@@ -3960,7 +3960,7 @@ void FXTable::removeItem(FXint row,FXint col,FXbool notify){
   // Clear entries
   for(r=sr; r<=er; r++){
     for(c=sc; c<=ec; c++){
-      cells[r*ncols+c]=NULL;
+      cells[r*ncols+c]=nullptr;
       }
     }
 
@@ -4019,7 +4019,7 @@ void FXTable::clearItems(FXbool notify){
   resizeElms(cells,1);
 
   // Fix up arrays
-  cells[0]=NULL;
+  cells[0]=nullptr;
 
   // Number of rows and columns
   nrows=0;
