@@ -582,7 +582,7 @@ long FXFileSelector::onCmdAccept(FXObject*,FXSelector,void*){
     if(FXStat::isDirectory(dir)){
 
       // In any mode, existing directory part is good enough
-      if(selectmode==SELECTFILE_ANY){
+      if(selectmode==SELECTFILE_ANY || selectmode==SELECTFILE_ALL){
         if(tgt) tgt->handle(accept,FXSEL(SEL_COMMAND,sel),(void*)(FXuval)1);
         return 1;
         }
