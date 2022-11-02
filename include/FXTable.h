@@ -72,8 +72,8 @@ protected:
   FXIcon     *icon;
   FXptr       data;
   FXuint      state;
-  FXColor     color;
-  FXbool      isowncolor;
+  FXColor     color; // TRAVMOD
+  FXbool      isowncolor; // TRAVMOD
 private:
   FXTableItem(const FXTableItem&);
   FXTableItem& operator=(const FXTableItem&);
@@ -115,16 +115,16 @@ public:
   /// Construct new table item
   FXTableItem(const FXString& text,FXIcon* ic=nullptr,FXptr ptr=nullptr):label(text),icon(ic),data(ptr),state(RIGHT|CENTER_Y),isowncolor(0){}
 
-  /// Change item's own color
+  /// Change item's own color TRAVMOD
   void setCellBackColor(FXColor clr);
 
-  /// Set item's color to default, cancel setCellBackColor(FXColor clr);
+  /// Set item's color to default, cancel setCellBackColor(FXColor clr); TRAVMOD
   void unsetCellBackColor();
 
-  /// Return true if item has his own color
+  /// Return true if item has his own color TRAVMOD
   FXbool isOwnColor();
 
-  /// Return item's own color, return 0 if no own color was set
+  /// Return item's own color, return 0 if no own color was set TRAVMOD
   FXColor getOwnColor();
 
   /// Change item's text label
@@ -358,10 +358,10 @@ protected:
   virtual void setItemFromControl(FXint r,FXint c,FXWindow* control);
 protected:
   enum {
-    MOUSE_NONE,
-    MOUSE_SCROLL,
-    MOUSE_DRAG,
-    MOUSE_SELECT
+    MOUSE_NONE,                 // Nop
+    MOUSE_SCROLL,               // Scrolling
+    MOUSE_DRAG,                 // Dragging
+    MOUSE_SELECT                // Selecting
     };
 private:
   FXTable(const FXTable&);
@@ -458,7 +458,6 @@ public:
   long onUpdAcceptInput(FXObject*,FXSelector,void*);
   long onCmdCancelInput(FXObject*,FXSelector,void*);
 public:
-
   enum {
     ID_HORZ_GRID=FXScrollArea::ID_LAST,
     ID_VERT_GRID,
@@ -495,7 +494,6 @@ public:
     ID_DELETE_SEL,
     ID_LAST
     };
-
 public:
 
   /**
@@ -1064,6 +1062,7 @@ public:
   void setStippleColor(FXColor clr);
   void setCellBorderColor(FXColor clr);
 
+// TRAVMOD
   FXbool isOwnColor(FXint row,FXint col);
   FXColor getOwnColor(FXint row,FXint col);
 

@@ -441,7 +441,7 @@ void FXTableItem::setIcon(FXIcon* icn,FXbool owned){
     }
   }
 
-void FXTableItem::setCellBackColor(FXColor clr) {
+void FXTableItem::setCellBackColor(FXColor clr) { // TRAVMOD
   color=clr;
   isowncolor=1;
   }
@@ -2438,7 +2438,7 @@ void FXTable::drawCell(FXDC& dc,FXint sr,FXint er,FXint sc,FXint ec){
       dc.setForeground(selbackColor);                 // Selected item
       }
     else if(sr==er && sc==ec){
-      if(isOwnColor(sr, sc))
+      if(isOwnColor(sr, sc)) // TRAVMOD
         dc.setForeground(getOwnColor(sr, sc));    // Singular item
       else
         dc.setForeground(cellBackColor[sr&1][sc&1]);    // Singular item
@@ -4345,7 +4345,7 @@ void FXTable::setCellBorderColor(FXColor clr){
     }
   }
 
-
+// TRAVMOD
 FXbool FXTable::isOwnColor(FXint row,FXint col)
 {
   if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemText: index out of range.\n",getClassName()); }
@@ -4355,6 +4355,7 @@ FXbool FXTable::isOwnColor(FXint row,FXint col)
   return 0;
 }
 
+// TRAVMOD
 FXColor FXTable::getOwnColor(FXint row,FXint col){
     if(row<0 || nrows<=row || col<0 || ncols<=col){ fxerror("%s::setItemText: index out of range.\n",getClassName()); }
     register FXTableItem* item=cells[row*ncols+col];

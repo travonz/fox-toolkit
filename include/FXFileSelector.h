@@ -46,7 +46,7 @@ class FXHorizontalFrame;
 /// File selection modes
 enum {
   SELECTFILE_ANY,             /// A single file, existing or not (to save to)
-  SELECTFILE_ALL,             /// A single file or directory, existing or not (to save to)
+  SELECTFILE_ALL,             /// A single file or directory, existing or not (to save to) TRAVMOD
   SELECTFILE_EXISTING,        /// An existing file (to load)
   SELECTFILE_MULTIPLE,        /// Multiple existing files
   SELECTFILE_MULTIPLE_ALL,    /// Multiple existing files or directories, but not '.' and '..'
@@ -155,6 +155,9 @@ public:
 
   /// Constructor
   FXFileSelector(FXComposite *p,FXObject* tgt=nullptr,FXSelector sel=0,FXuint opts=0,FXint x=0,FXint y=0,FXint w=0,FXint h=0);
+
+  /// Create server-side resources
+  virtual void create();
 
   /// Return a pointer to the "Accept" button
   FXButton *acceptButton() const { return accept; }
@@ -285,7 +288,7 @@ public:
   FXbool getReadOnly() const;
 
   /// Allow or disallow navigation
-  void allowNavigation(FXbool flag){ navigable=flag; }
+  void allowNavigation(FXbool flag);
 
   /// Is navigation allowed?
   FXbool allowNavigation() const { return navigable; }

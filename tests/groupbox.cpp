@@ -52,7 +52,7 @@ public:
 
   // Message handlers
   long onCmdFileDlgAny(FXObject*,FXSelector,void*);
-  long onCmdFileDlgAll(FXObject*,FXSelector,void*);
+  long onCmdFileDlgAll(FXObject*,FXSelector,void*); // TRAVMOD
   long onCmdFileDlgExisting(FXObject*,FXSelector,void*);
   long onCmdFileDlgMultiple(FXObject*,FXSelector,void*);
   long onCmdFileDlgDirectory(FXObject*,FXSelector,void*);
@@ -81,7 +81,7 @@ public:
     ID_DEICONIFY,
     ID_DELETE,
     ID_FILEDLG_ANY,
-    ID_FILEDLG_ALL,
+    ID_FILEDLG_ALL, // TRAVMOD
     ID_FILEDLG_EXISTING,
     ID_FILEDLG_MULTIPLE,
     ID_FILEDLG_DIRECTORY,
@@ -119,7 +119,7 @@ FXDEFMAP(GroupWindow) GroupWindowMap[]={
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_POPUP,                             GroupWindow::onCmdPopup),
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_ABOUT,                             GroupWindow::onCmdAbout),
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_ANY,                       GroupWindow::onCmdFileDlgAny),
-  FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_ALL,                       GroupWindow::onCmdFileDlgAll),
+  FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_ALL,                       GroupWindow::onCmdFileDlgAll), //TRAVMOD
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_EXISTING,                  GroupWindow::onCmdFileDlgExisting),
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_MULTIPLE,                  GroupWindow::onCmdFileDlgMultiple),
   FXMAPFUNC(SEL_COMMAND,  GroupWindow::ID_FILEDLG_MULTIPLE_ALL,              GroupWindow::onCmdFileDlgMultipleAll),
@@ -202,7 +202,7 @@ GroupWindow::GroupWindow(FXApp* a):FXMainWindow(a,"Group Box Test",nullptr,nullp
   menubar=new FXMenuBar(this,LAYOUT_SIDE_TOP|LAYOUT_FILL_X);
   filemenu=new FXMenuPane(this);
     new FXMenuCommand(filemenu,"Open any",folder_open,this,ID_FILEDLG_ANY);
-    new FXMenuCommand(filemenu,"Open all",folder_open,this,ID_FILEDLG_ALL);
+    new FXMenuCommand(filemenu,"Open all",folder_open,this,ID_FILEDLG_ALL); // TRAVMOD
     new FXMenuCommand(filemenu,"Open existing",folder_open,this,ID_FILEDLG_EXISTING);
     new FXMenuCommand(filemenu,"Open multiple",folder_open,this,ID_FILEDLG_MULTIPLE);
     new FXMenuCommand(filemenu,"Open multiple all",folder_open,this,ID_FILEDLG_MULTIPLE_ALL);
@@ -496,12 +496,12 @@ static const FXchar sourcefiles[]="All Files (*)\nC++ Source Files (*.cpp,*.cxx,
 
 // Open any file
 long GroupWindow::onCmdFileDlgAny(FXObject*,FXSelector,void*){
-  FXString file=FXFileDialog::getSaveFilename(this,"Save file","/home/1337/newfile.txt",sourcefiles,1);
+  FXString file=FXFileDialog::getSaveFilename(this,"Save file",FXPath::absolute(FXSystem::getHomeDirectory(),"newfile.txt"),sourcefiles,1);
   fxmessage("File=\"%s\"\n",file.text());
   return 1;
   }
 
-// Open any file or directory, existing or not
+// Open any file or directory, existing or not TRAVMOD
 long GroupWindow::onCmdFileDlgAll(FXObject*,FXSelector,void*){
     FXFileDialog open(this,"Open single file or directory");
     open.setSelectMode(SELECTFILE_ALL);
@@ -514,7 +514,7 @@ long GroupWindow::onCmdFileDlgAll(FXObject*,FXSelector,void*){
 
 // Open existing file
 long GroupWindow::onCmdFileDlgExisting(FXObject*,FXSelector,void*){
-  FXString file=FXFileDialog::getOpenFilename(this,"Open file","dippy.h",sourcefiles,3);
+  FXString file=FXFileDialog::getOpenFilename(this,"Open file","groupbox.cpp",sourcefiles,1);
   fxmessage("File=\"%s\"\n",file.text());
   return 1;
   }
@@ -535,8 +535,10 @@ long GroupWindow::onCmdFileDlgMultiple(FXObject*,FXSelector,void*){
 
 // Open multiple all
 long GroupWindow::onCmdFileDlgMultipleAll(FXObject*,FXSelector,void*){
-  FXFileDialog open(this,"Open multiple files or directories");
+  FXFileDialog open(this,"Open multiple files or directories"); // TRAVMOD
   open.setSelectMode(SELECTFILE_MULTIPLE_ALL);
+  open.setDirectory(FXSystem::getHomeDirectory());
+  //open.allowNavigation(false);  // No changing directories
   if(open.execute(PLACEMENT_CURSOR)){
     FXString* files=open.getFilenames();
     if(files){
@@ -552,7 +554,7 @@ long GroupWindow::onCmdFileDlgMultipleAll(FXObject*,FXSelector,void*){
 
 // Open existing directory
 long GroupWindow::onCmdFileDlgDirectory(FXObject*,FXSelector,void*){
-  FXString dir=FXFileDialog::getOpenDirectory(this,"Open single directory",PATHSEPSTRING);
+  FXString dir=FXFileDialog::getOpenDirectory(this,"Open single directory",PATHSEPSTRING); // TRAVMOD
   fxmessage("Dir=\"%s\"\n",dir.text());
   return 1;
   }
@@ -562,7 +564,7 @@ long GroupWindow::onCmdFileDlgDirectory(FXObject*,FXSelector,void*){
 long GroupWindow::onCmdDirDlg(FXObject*,FXSelector,void*){
   FXDirDialog open(this,"Open directory");
   open.showFiles(true);
-  open.setDirectory("/etc/sysconfig/networking");
+  open.setDirectory(FXSystem::getHomeDirectory());
   if(open.execute()){
     fxmessage("Dir=%s\n",open.getDirectory().text());
     }
